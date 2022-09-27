@@ -25,10 +25,14 @@ public class Questions {
 
     @Column(name = "Ques_Description")
     private String description;
+
     @OneToOne
     @JoinColumn(name = "Ques_sts_id")
     private Status status;
 
+    @OneToOne
+    @JoinColumn(name = "Ques_Lang_Id")
+    private OperationLanguage operationLanguage;
     public Long getId() {
         return id;
     }

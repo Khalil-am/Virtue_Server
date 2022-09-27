@@ -7,7 +7,7 @@ import com.am.Virtue.entities.Status;
 public interface AccountService {
     public Account findAccountById(Long id);
 
-    public Account  findAccountByEmailAndStatus(String email, Status status);
+    public Account findAccountByEmailAndStatus(String email, Status status);
 
     public Account findAccountByMobileAndStatus(String mobile, Status status);
 

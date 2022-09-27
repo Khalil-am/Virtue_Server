@@ -54,8 +54,7 @@ public class AppointmentsController {
         Validate Data
          */
         if (
-                appointmentsResource.getAccount() == null
-                        || appointmentsResource.getPsychologists() == null
+                        appointmentsResource.getPsychologists() == null
                         || appointmentsResource.getAppoTime() == null
                         || appointmentsResource.getAppoDate() == null
         )

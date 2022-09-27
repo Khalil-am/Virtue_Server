@@ -37,7 +37,7 @@ public class Account {
     @Column(name = "ACC_BIRTHDATE")
     private Date Birthdate;
     @OneToOne
-    @JoinColumn(name = "ACC_Forms_Id",referencedColumnName = "Forms_Id")
+    @JoinColumn(name = "ACC_Forms_Id", referencedColumnName = "Forms_Id")
     private Forms forms;
     @Column(name = "ACC_PASSWORD")
     private String password;
@@ -58,6 +58,9 @@ public class Account {
     @OneToOne
     @JoinColumn(name = "ACC_Lang_Id")
     private OperationLanguage operationLanguage;
+    @OneToOne
+    @JoinColumn(name = "Ques_ID")
+    private Questions questions;
 
     @Transient
     private String langCode;
@@ -152,6 +155,14 @@ public class Account {
 
     public Date getBirthdate() {
         return Birthdate;
+    }
+
+    public Questions getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Questions questions) {
+        this.questions = questions;
     }
 
     public void setBirthdate(Date birthdate) {
