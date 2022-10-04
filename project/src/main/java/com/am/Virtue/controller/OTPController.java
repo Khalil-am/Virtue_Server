@@ -57,17 +57,13 @@ public ResponseEntity<MessageBody> customerRegistrationOTP(HttpServletRequest re
     /*
      *Check null and empty values from client
      */
-    if (accountResource.getFirstName() == null ||
-            accountResource.getLastName() == null ||
-            accountResource.getMobileNumber() == null ||
-            accountResource.getEmail() == null ||
-            accountResource.getPassword() == null ||
-            accountResource.getConfirmPassword() == null
-        //  accountResource.getGenderId() == null ||
-        //  accountResource.getCityId() == null ||
-        //  accountResource.getDistrictId() == null ||
-        //  accountResource.getNationalityId() == null ||
-        //   accountResource.getUserName() == null ||
+    if (accountResource.getFirstName() == null
+            || accountResource.getLastName() == null
+            || accountResource.getMobileNumber() == null
+            || accountResource.getEmail() == null
+            || accountResource.getPassword() == null
+            || accountResource.getConfirmPassword() == null
+            || accountResource.getOtp() == null
     ) {
         throw new ResourceException(applicationContext, HttpStatus.BAD_REQUEST, "400", operationLanguage.getCode());
     }
@@ -109,16 +105,14 @@ public ResponseEntity<MessageBody> customerRegistrationOTP(HttpServletRequest re
         throw new ResourceException(applicationContext, HttpStatus.CONFLICT, "mobile406", operationLanguage.getCode());
     }
     account.setMobileNumber(validMobile);
-//        String userName = accountResource.getUserName().toLowerCase();
-//        Account findByUserName = accountService.findAccountByUserName(userName);
-//        if (findByUserName != null) {
-//            throw new ResourceException(applicationContext, HttpStatus.FOUND, "Username302", operationLanguage.getCode());
-//        }
-//        account.setUserName(userName);
-//        Nationality nationality = nationalityService.findNationalityById(accountResource.getNationalityId());
-//        if (nationality.getId() == null) {
-//            throw new ResourceException(applicationContext, HttpStatus.NOT_FOUND, "Nationality404", operationLanguage.getCode());
-//        }
+        String userName = accountResource.getEmail().toLowerCase();
+        //status fix if needed
+        Account findByUserName = accountService.findAccountByEmailAndStatus(userName,status);
+        if (findByUserName != null) {
+            throw new ResourceException(applicationContext, HttpStatus.FOUND, "Username302", operationLanguage.getCode());
+        }
+        account.setEmail(userName);
+
 //        account.setNationality(nationality);
     /*
      *Create OTP object to pass throw service and persist in database

@@ -1,11 +1,9 @@
 package com.am.Virtue.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "Appointments")
@@ -29,16 +27,20 @@ public class Appointments {
     @OneToOne
     @JoinColumn(name = "ACC_ID", referencedColumnName = "ACC_ID")
     private Account account;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "APPO_DATE")
-    private Date AppoDate;
+    private String appoDate;
     @Column(name = "APPO_TIME")
-    private Date AppoTime;
+    private String appoTime;
+    @Column(name = "APPO_TYPE")
+    private Long type;
     @Column(name = "APPO_CREATION_DATE")
     private LocalDateTime creationDate;
     @OneToOne
-    @JoinColumn(name = "ACC_Sts_Id", referencedColumnName = "Sts_Id")
+    @JoinColumn(name = "APPO_Sts_Id", referencedColumnName = "Sts_Id")
     private Status status;
+    @OneToOne
+    @JoinColumn(name = "APPO_Lang_Id")
+    private OperationLanguage operationLanguage;
 
     public long getId() {
         return id;
@@ -64,20 +66,20 @@ public class Appointments {
         this.account = account;
     }
 
-    public Date getAppoDate() {
-        return AppoDate;
+    public String getAppoDate() {
+        return appoDate;
     }
 
-    public void setAppoDate(Date appoDate) {
-        AppoDate = appoDate;
+    public void setAppoDate(String appoDate) {
+        this.appoDate = appoDate;
     }
 
-    public Date getAppoTime() {
-        return AppoTime;
+    public String getAppoTime() {
+        return appoTime;
     }
 
-    public void setAppoTime(Date appoTime) {
-        AppoTime = appoTime;
+    public void setAppoTime(String appoTime) {
+        this.appoTime = appoTime;
     }
 
     public LocalDateTime getCreationDate() {
@@ -94,5 +96,21 @@ public class Appointments {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Long getType() {
+        return type;
+    }
+
+    public void setType(Long type) {
+        this.type = type;
+    }
+
+    public OperationLanguage getOperationLanguage() {
+        return operationLanguage;
+    }
+
+    public void setOperationLanguage(OperationLanguage operationLanguage) {
+        this.operationLanguage = operationLanguage;
     }
 }

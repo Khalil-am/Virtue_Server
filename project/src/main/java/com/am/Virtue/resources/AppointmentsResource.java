@@ -1,30 +1,35 @@
 package com.am.Virtue.resources;
 
 import com.am.Virtue.entities.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AppointmentsResource {
-    private long id;
-    private Psychologists psychologists;
-    private Account account;
-    private Date AppoDate;
+    private String id;
+    private String psychologists;
+    private String account;
+    private String date;
     //not optimal CHANGE to a string or an efficient time class
-    private Date AppoTime;
-    private LocalDateTime creationDate;
-    private Status status;
+    private String time;
+    private String creationDate;
+    private String status;
+    private String type;
 
-    public AppointmentsResource toAppointmentsResource(Appointments appointments) {
+    //TODO fix
+    public static AppointmentsResource toAppointmentsResource(Appointments appointments) {
         AppointmentsResource appointmentsResource = new AppointmentsResource();
-        appointmentsResource.setAccount(appointments.getAccount());
-        appointmentsResource.setPsychologists(appointments.getPsychologists());
-        appointmentsResource.setAppoDate(appointments.getAppoDate());
-        appointmentsResource.setAppoTime(appointments.getAppoTime());
-        appointmentsResource.setCreationDate(appointments.getCreationDate());
-        appointmentsResource.setStatus(appointments.getStatus());
+        appointmentsResource.setId(String.valueOf(appointments.getId()));
+         appointmentsResource.setAccount(String.valueOf(appointments.getAccount().getId()));
+          appointmentsResource.setPsychologists(String.valueOf(appointments.getPsychologists().getId()));
+        //bad code
+        appointmentsResource.setType(String.valueOf(Long.parseLong(String.valueOf(appointments.getType()))));
+        appointmentsResource.setDate(appointments.getAppoDate());
+        appointmentsResource.setTime(appointments.getAppoTime());
+        appointmentsResource.setCreationDate(appointments.getCreationDate().toString());
+        appointmentsResource.setStatus(appointments.getStatus().getId().toString());
 
 
         return appointmentsResource;
@@ -32,69 +37,102 @@ public class AppointmentsResource {
 
     public Appointments toAppointments() {
         Appointments appointments = new Appointments();
-        appointments.setAccount(this.account);
-        appointments.setPsychologists(this.psychologists);
-        appointments.setAppoDate(this.AppoDate);
-        appointments.setAppoTime(this.AppoTime);
-        appointments.setCreationDate(this.creationDate);
-        appointments.setStatus(this.status);
+     //   appointments.setId(Long.parseLong(id));
+        //appointments.setAccount(account);
+        if (account != null) {
+            Account account1 = new Account();
+            account1.setId(Long.parseLong(account));
+        }
+        //  appointments.setPsychologists(this.psychologists);
+        if (psychologists != null) {
+            Psychologists psychologists1 = new Psychologists();
+            psychologists1.setId(Long.parseLong(psychologists));
+        }
+        appointments.setType(Long.parseLong(this.type));
+        appointments.setAppoDate(this.date);
+        appointments.setAppoTime(this.time);
+        appointments.setCreationDate(LocalDateTime.now());
+        appointments.setStatus(appointments.getStatus());//TODO fix
 
         return appointments;
     }
 
-    public long getId() {
+    public Appointments toAppointmentsId() {
+        Appointments appointments = new Appointments();
+        appointments.setId(Long.parseLong(String.valueOf(this.id)));
+        return appointments;
+    }
+
+    public  static List<AppointmentsResource> toAppointmentsResource(List<Appointments> AppointmentsList) {
+        List<AppointmentsResource> appointmentsResourceList = new ArrayList<>();
+        AppointmentsList.forEach(appointments -> {
+            AppointmentsResource appointmentsResource = toAppointmentsResource(appointments);
+            appointmentsResourceList.add(appointmentsResource);
+        });
+        return appointmentsResourceList;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Psychologists getPsychologists() {
+    public String getPsychologists() {
         return psychologists;
     }
 
-    public void setPsychologists(Psychologists psychologists) {
+    public void setPsychologists(String psychologists) {
         this.psychologists = psychologists;
     }
 
-    public Account getAccount() {
+    public String getAccount() {
         return account;
     }
 
-    public void setAccount(Account account) {
+    public void setAccount(String account) {
         this.account = account;
     }
 
-    public Date getAppoDate() {
-        return AppoDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setAppoDate(Date appoDate) {
-        AppoDate = appoDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public Date getAppoTime() {
-        return AppoTime;
+    public String getTime() {
+        return time;
     }
 
-    public void setAppoTime(Date appoTime) {
-        AppoTime = appoTime;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public LocalDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

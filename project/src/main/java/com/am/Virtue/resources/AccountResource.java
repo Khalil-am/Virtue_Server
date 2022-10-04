@@ -44,6 +44,7 @@ public class AccountResource {
 
     public static AccountResource toAccountResource(Account account) {
         AccountResource accountResource = new AccountResource();
+        accountResource.setId(account.getId());
         accountResource.setFirstName(account.getFirstName());
         accountResource.setLastName(account.getLastName());
         accountResource.setEmail(account.getEmail());
@@ -59,6 +60,7 @@ public class AccountResource {
 
     public Account toAccount() {
         Account account = new Account();
+        account.setId(this.id);
         account.setFirstName(this.firstName);
         account.setLastName(this.lastName);
         account.setEmail(this.email);

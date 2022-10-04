@@ -1,6 +1,7 @@
 package com.am.Virtue.controller;
 
 
+import com.am.Virtue.Security.AccountUserDetails;
 import com.am.Virtue.Service.*;
 import com.am.Virtue.Utils.Utils;
 import com.am.Virtue.entities.*;
@@ -10,14 +11,16 @@ import com.am.Virtue.Service.*;
 import com.am.Virtue.config.MessageBody;
 import com.am.Virtue.config.MessageHandler;
 import com.am.Virtue.*;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 @CrossOrigin
 @RestController
@@ -165,12 +168,12 @@ public class AccountController {
         /*
         fetch Account from Auth2.0 change once it ready
          */
-//        AccountUserDetails accountUserDetails = (AccountUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        Long userId = accountUserDetails.getUser().getId();
-//        Account account = accountService.findAccountById();
+        AccountUserDetails accountUserDetails = (AccountUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = accountUserDetails.getUser().getId();
+        Account account = accountService.findAccountById(userId);
 
-        //      AccountResource accountResource = new AccountResource();
-        // accountResource = accountResource.toAccountResource(account);
+              AccountResource accountResource = new AccountResource();
+         accountResource = accountResource.toAccountResource(account);
         SystemMessage message = messageService.findSystemMessageByCode("200");
         SystemMessageCaption systemMessageCaption = systemMessageCaptionService.findMessageCaptionByMessageAndLanguage(message, operationLanguage);
         return new ResponseEntity<>(MessageHandler.setMessageBody(systemMessageCaption, message), HttpStatus.CREATED); //switch the messsage part for more accurate
